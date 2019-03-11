@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.StaticFiles;
 using DotNetCoreSqlDb.Models;
 
 namespace DotNetCoreSqlDb
@@ -41,6 +42,9 @@ namespace DotNetCoreSqlDb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".woff"] = "application/x-font-woff";
+            provider.Mappings[".woff2"] = "application/x-font-woff2";
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddAzureWebAppDiagnostics();
